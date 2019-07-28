@@ -3,9 +3,9 @@ package clases;
 public class Marca {
     private int idMarca;
     private String nombre;
-    private char estado;
+    private String estado;
 
-    public Marca(int idMarca, String nombre, char estado) {
+    public Marca(int idMarca, String nombre, String estado) {
         this.idMarca = idMarca;
         this.nombre = nombre;
         this.estado = estado;
@@ -27,11 +27,11 @@ public class Marca {
         this.nombre = nombre;
     }
 
-    public char getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(char estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
     
