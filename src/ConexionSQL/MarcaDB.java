@@ -2,7 +2,9 @@ package ConexionSQL;
 
 import clases.Marca;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -23,4 +25,20 @@ public class MarcaDB {
         }
         return listaMarcas;
     }
+    
+    public void insertarMarca(String marca, String estado){
+        try{
+            Connection cnx = DBConnection.getConnection();
+            PreparedStatement pst = null;
+            String sql = "INSERT INTO MARCA VALUES(SQ_MARCA.NEXTVAL,?,?)";
+            pst = cnx.prepareStatement(sql);
+            pst.setString(1, marca);
+            pst.setString(2, estado);
+            pst.executeQuery();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Error en el insert");
+        }
+    }
+    
 }

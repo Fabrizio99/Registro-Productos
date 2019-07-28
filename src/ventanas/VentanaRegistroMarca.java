@@ -71,10 +71,13 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Nombre");
 
+        cmpNombre.setEnabled(false);
+
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("Estado");
 
         cmbEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "A", "B", "C" }));
+        cmbEstado.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -106,10 +109,17 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         );
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.setEnabled(false);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.setEnabled(false);
 
         tblMarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,6 +212,29 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         listarDatos();
     }//GEN-LAST:event_btnListarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if(btnAgregar.getText().equals("Agregar")){
+            btnAgregar.setText("Guardar");
+            cmpNombre.setEnabled(true);
+            cmbEstado.setEnabled(true);
+            btnEditar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnListar.setEnabled(false);
+            return;
+        }
+        if(btnAgregar.getText().equals("Guardar")){
+            System.out.println(cmbEstado.getSelectedItem()+"");
+            db.insertarMarca(cmpNombre.getText(), cmbEstado.getSelectedItem()+"");
+            btnAgregar.setText("Agregar");
+            cmpNombre.setEnabled(false);
+            cmbEstado.setEnabled(false);
+            btnEditar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+            btnListar.setEnabled(true);
+            return;
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnAgregar;
