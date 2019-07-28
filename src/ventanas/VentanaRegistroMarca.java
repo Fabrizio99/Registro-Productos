@@ -1,8 +1,11 @@
 package ventanas;
 
+import clases.*;
+import ConexionSQL.MarcaDB;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaRegistroMarca extends javax.swing.JFrame {
+    MarcaDB db = new MarcaDB();
     Object[] objeto = new Object[3];
     DefaultTableModel modelo;
     public VentanaRegistroMarca() {
@@ -10,6 +13,15 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         modelo = (DefaultTableModel) tblMarca.getModel();
     }
 
+    public void listarDatos(){
+        modelo.setRowCount(0);
+        for(Marca marca : db.ListaMarcas()) {
+            objeto[0] = marca.getIdMarca();
+            objeto[1] = marca.getNombre();
+            objeto[2] = marca.getEstado();
+            modelo.addRow(objeto);
+        }
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -27,6 +39,7 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMarca = new javax.swing.JTable();
+        btnListar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +137,13 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
             tblMarca.getColumnModel().getColumn(2).setMaxWidth(50);
         }
 
+        btnListar.setText("Listar");
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -133,10 +153,11 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnListar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -155,7 +176,9 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminar))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnListar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -168,15 +191,23 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
+        listarDatos();
+    }//GEN-LAST:event_btnListarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnAgregar;
     public static javax.swing.JButton btnEditar;
     public static javax.swing.JButton btnEliminar;
+    public static javax.swing.JButton btnListar;
     public static javax.swing.JComboBox cmbEstado;
     public static javax.swing.JTextField cmpNombre;
     private javax.swing.JLabel jLabel1;

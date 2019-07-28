@@ -9,7 +9,7 @@ public class DBConnection {
     public static Connection getConnection(){
         try{
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            String myDB = "jdbc:oracle:thin:@DESKTOP-K4NOVPG:1521:XE [bdproductos on BDPRODUCTOS]";
+            String myDB = "jdbc:oracle:thin:@DESKTOP-K4NOVPG:1521:XE";
             String usuario = "bdproductos";
             String password = "123";
             Connection cnx = DriverManager.getConnection(myDB,usuario,password);
