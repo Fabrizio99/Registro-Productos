@@ -135,6 +135,11 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         tblMarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -289,6 +294,14 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         btnListar.setEnabled(true);
         btnEditar.setText("Editar");
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(tblMarca.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null, "Seleccione un elemento para editar.");
+            return;
+        }
+        db.eliminarMarca(Integer.parseInt(tblMarca.getValueAt(tblMarca.getSelectedRow(),0).toString()));
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnAgregar;

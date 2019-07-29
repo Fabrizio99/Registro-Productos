@@ -57,6 +57,18 @@ public class MarcaDB {
             System.out.println("Error al invocar procedure sp_modificarmarca");
         }
     }
+    public void eliminarMarca(int idmarca){
+        try{
+            Connection cnx = DBConnection.getConnection();
+            CallableStatement stmt = cnx.prepareCall("{call sp_eliminarmarca(?)}");
+            stmt.setInt(1, idmarca);
+            stmt.execute();
+            System.out.println("done");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Error al invocar procedure sp_eliminarmarca");
+        }
+    }
     public int cantidadMarcas(){
         try{
             Connection cnx = DBConnection.getConnection();
