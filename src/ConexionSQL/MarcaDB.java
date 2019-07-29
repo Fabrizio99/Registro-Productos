@@ -1,11 +1,13 @@
 package ConexionSQL;
 
 import clases.Marca;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 public class MarcaDB {
@@ -41,4 +43,31 @@ public class MarcaDB {
         }
     }
     
+    public void editarMarca(int idmarca,String marca,String estado){
+        try{
+            Connection cnx = DBConnection.getConnection();
+            CallableStatement stmt = cnx.prepareCall("{call sp_modificarmarca(?,?,?)}");
+            stmt.setInt(1, idmarca);
+            stmt.setString(2, marca);
+            stmt.setString(3, estado);
+            stmt.execute();
+            System.out.println("done");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Error al invocar procedure sp_modificarmarca");
+        }
+    }
+    public int cantidadMarcas(){
+        try{
+            Connection cnx = DBConnection.getConnection();
+            CallableStatement stmt = cnx.prepareCall("{?= call fn_obtenercantidadmarcas}");
+            stmt.registerOutParameter(1, Types.INTEGER);
+            stmt.executeQuery();
+            return stmt.getInt(1);
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            System.out.println("Error al invocar la función");
+            return 0;
+        }
+    }
 }

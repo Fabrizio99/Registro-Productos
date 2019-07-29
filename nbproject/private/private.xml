@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/registroproductos/RegistroProductos.java</file>
             <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/clases/Marca.java</file>
-            <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/ConexionSQL/ClienteDB.java</file>
+            <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/ventanas/VentanaPrincipal.java</file>
+            <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/ventanas/VentanaRegistroMarca.java</file>
+            <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/ConexionSQL/MarcaDB.java</file>
             <file>file:/C:/Users/fabri/Documents/NetBeansProjects/RegistroProductos/src/ConexionSQL/DBConnection.java</file>
         </group>
     </open-files>

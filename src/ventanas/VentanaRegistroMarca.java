@@ -2,26 +2,38 @@ package ventanas;
 
 import clases.*;
 import ConexionSQL.MarcaDB;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaRegistroMarca extends javax.swing.JFrame {
     MarcaDB db = new MarcaDB();
     Object[] objeto = new Object[3];
+    int indice = 0;
     DefaultTableModel modelo;
     public VentanaRegistroMarca() {
         initComponents();
         modelo = (DefaultTableModel) tblMarca.getModel();
+        validarCantidadCero();
     }
 
-    public void listarDatos(){
-        modelo.setRowCount(0);
-        for(Marca marca : db.ListaMarcas()) {
-            objeto[0] = marca.getIdMarca();
-            objeto[1] = marca.getNombre();
-            objeto[2] = marca.getEstado();
-            modelo.addRow(objeto);
+    public void validarCantidadCero(){
+        if(db.cantidadMarcas()==0){
+            habilitarBotonesEdElLi(false);
         }
     }
+    public void habilitarBotonesEdElLi(boolean valor){
+        btnEditar.setEnabled(valor);
+        btnEliminar.setEnabled(valor);
+        btnListar.setEnabled(valor);
+    }
+    public void habilitarCampos(boolean valor){
+        cmpNombre.setEnabled(valor);
+        cmbEstado.setEnabled(valor);
+        if(valor){
+            cmpNombre.requestFocus();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -116,10 +128,13 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
-        btnEditar.setEnabled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
-        btnEliminar.setEnabled(false);
 
         tblMarca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -210,31 +225,70 @@ public class VentanaRegistroMarca extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
-        listarDatos();
+        modelo.setRowCount(0);
+        for(Marca marca : db.ListaMarcas()) {
+            objeto[0] = marca.getIdMarca();
+            objeto[1] = marca.getNombre();
+            objeto[2] = marca.getEstado();
+            modelo.addRow(objeto);
+        }
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(btnAgregar.getText().equals("Agregar")){
+            habilitarBotonesEdElLi(false);
+            habilitarCampos(true);
             btnAgregar.setText("Guardar");
-            cmpNombre.setEnabled(true);
-            cmbEstado.setEnabled(true);
-            btnEditar.setEnabled(false);
+            return;
+        }
+        
+        if(cmpNombre.getText().equals("") || cmbEstado.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Llene todos los datos");
+            return;
+        }
+        String nombre = cmpNombre.getText().substring(0,1).toUpperCase()+cmpNombre.getText().substring(1).toLowerCase();
+        System.out.println(nombre);
+        String estado = cmbEstado.getSelectedItem().toString();
+        db.insertarMarca(nombre, estado);
+        habilitarBotonesEdElLi(true);
+        habilitarCampos(false);
+        cmpNombre.setText("");
+        cmbEstado.setSelectedIndex(0);
+        btnAgregar.setText("Agregar");
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if(btnEditar.getText().equals("Editar")){
+            if(tblMarca.getSelectedRow()==-1){
+                JOptionPane.showMessageDialog(null, "Seleccione un elemento para editar.");
+                return;
+            }
+            indice = tblMarca.getSelectedRow();
+            cmpNombre.setText(tblMarca.getValueAt(indice, 1).toString());
+            for (int i = 0; i < cmbEstado.getItemCount(); i++) {
+                if(tblMarca.getValueAt(indice, 2).toString().equals(cmbEstado.getItemAt(i).toString())){
+                    cmbEstado.setSelectedIndex(i);
+                    break;
+                }
+            }
+            habilitarCampos(true);
+            btnAgregar.setEnabled(false);
             btnEliminar.setEnabled(false);
             btnListar.setEnabled(false);
+            btnEditar.setText("Guardar");
             return;
         }
-        if(btnAgregar.getText().equals("Guardar")){
-            System.out.println(cmbEstado.getSelectedItem()+"");
-            db.insertarMarca(cmpNombre.getText(), cmbEstado.getSelectedItem()+"");
-            btnAgregar.setText("Agregar");
-            cmpNombre.setEnabled(false);
-            cmbEstado.setEnabled(false);
-            btnEditar.setEnabled(true);
-            btnEliminar.setEnabled(true);
-            btnListar.setEnabled(true);
+        if(cmpNombre.getText().equals("") || cmbEstado.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(null, "Llene todos los datos");
             return;
         }
-    }//GEN-LAST:event_btnAgregarActionPerformed
+        db.editarMarca(Integer.parseInt(tblMarca.getValueAt(indice,0).toString()) ,cmpNombre.getText(),cmbEstado.getSelectedItem().toString());
+        habilitarCampos(false);
+        btnAgregar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnListar.setEnabled(true);
+        btnEditar.setText("Editar");
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnAgregar;
