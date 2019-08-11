@@ -17,7 +17,7 @@ public class MarcaDB {
             Connection cnx = DBConnection.getConnection();
             Statement st = cnx.createStatement();
             ResultSet rs = st.executeQuery("  SELECT IDMARCA, NOMBRE, ESTADO FROM MARCA ORDER BY 1  ");
-            while (rs.next()) {                
+            while (rs.next()) {
                 Marca marca = new Marca(rs.getInt("IDMARCA"),rs.getString("NOMBRE"), rs.getString("ESTADO"));
                 listaMarcas.add(marca);
             }
