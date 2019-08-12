@@ -27,7 +27,7 @@ public class MarcaDB {
         }
         return listaMarcas;
     }
-    
+
     public void insertarMarca(String marca, String estado){
         try{
             Connection cnx = DBConnection.getConnection();
@@ -70,16 +70,31 @@ public class MarcaDB {
         }
     }
     public int cantidadMarcas(){
+        int cantidad = 0;
         try{
             Connection cnx = DBConnection.getConnection();
             CallableStatement stmt = cnx.prepareCall("{?= call fn_obtenercantidadmarcas}");
             stmt.registerOutParameter(1, Types.INTEGER);
             stmt.executeQuery();
-            return stmt.getInt(1);
+            cantidad = stmt.getInt(1);
         }catch(SQLException e){
             System.out.println(e.getMessage());
             System.out.println("Error al invocar la función");
-            return 0;
         }
+        return cantidad;
+    }
+    
+    public ArrayList<String> nombreMarcas(){
+        ArrayList<String> marcas = new ArrayList();
+        try {
+            Connection cnx = DBConnection.getConnection();
+            Statement st = cnx.createStatement();
+            ResultSet rs = st.executeQuery("  SELECT NOMBRE FROM MARCA ORDER BY IDMARCA  ");
+            while(rs.next())    marcas.add(rs.getString("NOMBRE"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Error al invocar la nombreMarcas");
+        }
+        return marcas;
     }
 }
