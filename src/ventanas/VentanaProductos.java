@@ -15,6 +15,7 @@ public class VentanaProductos extends javax.swing.JFrame {
         initComponents();
         modelo = (DefaultTableModel) tablaRegistros.getModel();
         listarProductos();
+        validarCantidad();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -254,6 +255,13 @@ public class VentanaProductos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    public void validarCantidad(){
+        if(dbProducto.cantidadProductos()!=0){
+            listarProductos();
+            return;
+        }
+        habilitarBtnEditarEliminar(false);
+    }
     public void insertarDatosMarcas(){
         cmbMarca.removeAllItems();
         cmbMarca.addItem("");
@@ -283,15 +291,15 @@ public class VentanaProductos extends javax.swing.JFrame {
         cmpPrecio.setEnabled(valor);
         cmbEstado.setEnabled(valor);
         cmbMarca.setEnabled(valor);
-        if(valor){
-            cmpNombre.requestFocus();
-        }else{
+        if(!valor){
             cmpNombre.setText("");
             cmpPrecio.setText("");
             cmpCantidad.setText("");
             cmbMarca.setSelectedIndex(0);
             cmbEstado.setSelectedIndex(0);
+            return;
         }
+        cmpNombre.requestFocus();
     }
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         if(btnAgregar.getText().equals("Agregar")){

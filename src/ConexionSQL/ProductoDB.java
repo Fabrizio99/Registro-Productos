@@ -3,9 +3,9 @@ package ConexionSQL;
 import clases.Producto;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 
 public class ProductoDB {
@@ -40,5 +40,19 @@ public class ProductoDB {
             System.out.println(e.getMessage());
             System.out.println("Error al invocar procedure sp_agregarProducto");
         }
+    }
+    public int cantidadProductos(){
+        int cantidad = 0;
+        try {
+            Connection cnx = DBConnection.getConnection();
+            CallableStatement stmt = cnx.prepareCall("{?=call fn_obtenercantidadproductos}");
+            stmt.registerOutParameter(1, Types.INTEGER);
+            stmt.executeQuery();
+            cantidad = stmt.getInt(1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Error al invocar la funcion");
+        }
+        return cantidad;
     }
 }
